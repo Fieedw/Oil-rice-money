@@ -50,7 +50,7 @@ const store = new Vuex.Store({
     fetchRecords(state) {
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
     },
-    createRecord(state, record) {
+    createRecord(state, record:RecordItem) {
       const record2: RecordItem = clone(record);
       record2.createdAt = new Date().toISOString();
       state.recordList.push(record2);
@@ -67,11 +67,10 @@ const store = new Vuex.Store({
       const names = state.tagList.map(item => item.name);
       if (names.indexOf(name) >= 0) {
         window.alert('标签名重复了');
-      }
-      const id = createId().toString();
-      state.tagList.push({id, name: name});
-      store.commit('saveTags');
-      window.alert('添加成功');
+      }else{const id = createId().toString();
+        state.tagList.push({id, name: name});
+        store.commit('saveTags');
+        window.alert('添加成功');}
     },
     saveTags(state) {
       window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
